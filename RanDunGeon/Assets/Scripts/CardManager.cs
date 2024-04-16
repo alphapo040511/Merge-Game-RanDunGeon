@@ -37,7 +37,7 @@ public class CardManager : MonoBehaviour
     {
         float addCardCoolTime;
  
-            Instantiate(cardPrefab, transform);
+        Instantiate(cardPrefab, transform);
         
         addCardCoolTime = 1.0f;
         while(addCardCoolTime >=0)
