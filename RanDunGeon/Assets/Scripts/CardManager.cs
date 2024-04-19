@@ -6,14 +6,14 @@ public class CardManager : MonoBehaviour
 {
     public GameObject cardPrefab;
     private int isCard;
-    private bool cardDrawing = false;
+    public bool cardDrawing = false;
     public bool doMerge = false;
     public bool stopDraw = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        cardDrawing = false;
     }
 
     // Update is called once per frame
@@ -33,13 +33,14 @@ public class CardManager : MonoBehaviour
         }
     }
 
+
     private IEnumerator AddCard()
     {
         float addCardCoolTime;
  
         Instantiate(cardPrefab, transform);
         
-        addCardCoolTime = 1.0f;
+        addCardCoolTime = 0.6f;
         while(addCardCoolTime >=0)
         {
             addCardCoolTime -= Time.deltaTime;

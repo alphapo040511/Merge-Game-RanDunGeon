@@ -4,27 +4,34 @@ using UnityEngine;
 using TMPro;
 using TreeEditor;
 using UnityEngine.UIElements;
+using DG.Tweening;
 
 public class CardState : MonoBehaviour
 {
     public Material attack;
-    public Material buff;
-    public Material debuff;
+    public Material defense;
     public Material recovery;
+    public Material stone;
+
     public float moveSpeed;
-    private bool Drawing;
-    Rigidbody cardRigidbody;
-    public int cardType;        //1 = 공격 2 = 디버프 3 = 회복
+    GameObject target1;
+    GameObject target2;
+
+    public bool DoMerge = false;
+    private bool DoMove = false;
+
+    public int cardType;        //1 = 공격 2 = 방어 3 = 회복 4 = 짱돌
     public int cardRank = 1;
-    private GameObject target;
+
     public TextMeshPro rankText;
-    private float CardX, otherCardX;
+
+    RaycastHit stopTarget;
+    RaycastHit hit;
 
     // Start is called before the first frame update
     void Start()
     {
-        cardRigidbody = GetComponent<Rigidbody>();
-        cardType = Random.Range(1, 5);
+        cardType = Random.Range(1, 11);
         changeCardType();
         rankText.text = cardRank.ToString();
     }
@@ -32,81 +39,96 @@ public class CardState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cardRigidbody.AddForce(Vector3.left * moveSpeed * Time.deltaTime);
+
+        
+
+        if (DoMove == false)
+        {
+            if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 4))            //합쳐질 카드 인식
+            {
+                target2 = hit.collider.gameObject;
+                if (target2.transform.tag == "Card" && cardRank <= 2)
+                {
+                    if (target2.GetComponent<CardState>().cardType == cardType && target2.GetComponent<CardState>().cardRank == cardRank)
+                    {
+                        MergeCard();
+                    }
+                }
+            }
+            else
+            {
+                if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out stopTarget, 40))        //카드 정렬
+                {
+                    DoMove = true;
+                    target1 = stopTarget.collider.gameObject;
+                    CardMove();
+                }
+            }
+        }
+        
+
+        
     }
 
     private void changeCardType()
     {
-        if (cardType == 1)
+        if (cardType == 1 || cardType == 2 || cardType == 3)
         {
+            cardType = 1;
             gameObject.GetComponent<MeshRenderer>().material = attack;
         }
-        else if (cardType == 2)
+        else if (cardType == 4 || cardType == 5 || cardType == 6)
         {
-            gameObject.GetComponent<MeshRenderer>().material = buff;
+            cardType = 4;
+            gameObject.GetComponent<MeshRenderer>().material = defense;
         }
-        else if (cardType == 3)
+        else if (cardType == 7 || cardType == 8 || cardType == 9)
         {
-            gameObject.GetComponent<MeshRenderer>().material = debuff;
-        }
-        else if (cardType == 4)
-        {
+            cardType = 7;
             gameObject.GetComponent<MeshRenderer>().material = recovery;
         }
-    }
-
-    private void OnCollisionStay(Collision otherCard)
-    {
-        if (cardRank <= 2)
+        else if (cardType == 10)
         {
-            //if (GetComponentInParent<CardManager>().stopDraw == true)
-                target = otherCard.gameObject;
-            {
-                if (otherCard.transform.tag == "Card")
-                {
-                    if (cardType == otherCard.transform.GetComponent<CardState>().cardType && cardRank == otherCard.transform.GetComponent<CardState>().cardRank)
-                    {
-                        GetComponentInParent<CardManager>().doMerge = true;
-                        
-                        CardX = transform.position.x;
-                        otherCardX = otherCard.transform.position.x;
-                        if (CardX > otherCardX)
-                        {
-                            GetComponent<BoxCollider>().isTrigger = true;
-                            StartCoroutine(MergeMove());
-                            
-                        }
-                        if (CardX < otherCardX)
-                        {
-                            Invoke("RankUp", 0.5f);
-                        }
-                    }
-                }
-            }
+            cardType = 10;
+            gameObject.GetComponent<MeshRenderer>().material = stone;
         }
     }
-    void RankUp()
+
+    private void CardMove()
     {
-        cardRank++;
-        rankText.text = cardRank.ToString();
-        GetComponentInParent<CardManager>().doMerge = false;
+        float stopPositionX = target1.transform.position.x + 4f;
+        transform.DOMoveX(stopPositionX, 0.3f).OnComplete(DoMoveTurn);
     }
 
-    IEnumerator MergeMove()
+    void MergeCard()
     {
-        transform.Translate(new Vector3(0, 0, 0.1f));
-        float time = 0;
-        while (time <= 0.2f)
+        GetComponent<Collider>().isTrigger = true;
+        transform.Translate(new Vector3 (0,0,0.1f));
+        if (DoMerge == false)
         {
-            time += Time.deltaTime;
-            
-            if (CardX <= otherCardX)
-            {
-                transform.Translate(Vector3.left * 5 * Time.deltaTime);
-            }
-            yield return null;
+            DoMerge = true;
+            target2.GetComponent<CardState>().DoMerge = true;
+            transform.DOMoveX(target2.transform.position.x, 0.3f).OnComplete(DoMergeTurn);
+
         }
+    }
+
+    public void RankUp()
+    {
+        DoMerge = false;
+        cardRank += 1;
+            rankText.text = cardRank.ToString();
+    }
+
+   void DoMoveTurn()
+    {
+        DoMove = false;
+    }
+
+    void DoMergeTurn()
+    {
+        target2.GetComponent<CardState>().RankUp();
+        DoMerge = false;
         Destroy(gameObject);
-        yield break;
     }
 }
