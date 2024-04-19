@@ -44,7 +44,7 @@ public class CardState : MonoBehaviour
 
         if (DoMove == false)
         {
-            if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 4))            //합쳐질 카드 인식
+            if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 3.3f))            //합쳐질 카드 인식
             {
                 target2 = hit.collider.gameObject;
                 if (target2.transform.tag == "Card" && cardRank <= 2)
@@ -96,7 +96,7 @@ public class CardState : MonoBehaviour
 
     private void CardMove()
     {
-        float stopPositionX = target1.transform.position.x + 4f;
+        float stopPositionX = target1.transform.position.x + 3.3f;
         transform.DOMoveX(stopPositionX, 0.3f).OnComplete(DoMoveTurn);
     }
 
