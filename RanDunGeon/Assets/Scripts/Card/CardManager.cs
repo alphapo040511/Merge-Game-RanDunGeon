@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    public GameObject cardPrefab;
+    private GameObject spawnCard;
     private int isCard;
     public bool cardDrawing = false;
     public bool doMerge = false;
     public bool stopDraw = false;
+
+    public GameObject Card1;
+    public GameObject Card2;
+    public GameObject Card3;
+    public GameObject Card4;
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +41,16 @@ public class CardManager : MonoBehaviour
 
     private IEnumerator AddCard()
     {
+        int cardType;
         float addCardCoolTime;
+        cardType = Random.Range(1, 5);
  
-        Instantiate(cardPrefab, transform);
+        if(cardType == 1 ) { spawnCard = Card1; }
+        else if(cardType == 2 ) { spawnCard = Card2; }
+        else if(cardType == 3 ) { spawnCard = Card3;}
+        else if(cardType == 4 ) {  spawnCard = Card4;}
+ 
+        Instantiate(spawnCard, transform);
         
         addCardCoolTime = 0.6f;
         while(addCardCoolTime >=0)

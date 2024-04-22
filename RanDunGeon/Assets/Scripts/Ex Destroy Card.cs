@@ -15,7 +15,7 @@ public class ExDestroyCard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             Ray cast = subCamera.ScreenPointToRay(Input.mousePosition);
             Debug.DrawLine(cast.origin, hit.point, Color.red);

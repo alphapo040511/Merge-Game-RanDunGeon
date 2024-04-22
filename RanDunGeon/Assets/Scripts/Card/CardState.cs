@@ -8,10 +8,6 @@ using DG.Tweening;
 
 public class CardState : MonoBehaviour
 {
-    public Material attack;
-    public Material defense;
-    public Material recovery;
-    public Material stone;
 
     public float moveSpeed;
     GameObject target1;
@@ -22,6 +18,7 @@ public class CardState : MonoBehaviour
 
     public int cardType;        //1 = 공격 2 = 방어 3 = 회복 4 = 짱돌
     public int cardRank = 1;
+    public bool skill = false;
 
     public TextMeshPro rankText;
 
@@ -31,8 +28,6 @@ public class CardState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cardType = Random.Range(1, 11);
-        changeCardType();
         rankText.text = cardRank.ToString();
     }
 
@@ -70,29 +65,6 @@ public class CardState : MonoBehaviour
         
     }
 
-    private void changeCardType()
-    {
-        if (cardType == 1 || cardType == 2 || cardType == 3)
-        {
-            cardType = 1;
-            gameObject.GetComponent<MeshRenderer>().material = attack;
-        }
-        else if (cardType == 4 || cardType == 5 || cardType == 6)
-        {
-            cardType = 4;
-            gameObject.GetComponent<MeshRenderer>().material = defense;
-        }
-        else if (cardType == 7 || cardType == 8 || cardType == 9)
-        {
-            cardType = 7;
-            gameObject.GetComponent<MeshRenderer>().material = recovery;
-        }
-        else if (cardType == 10)
-        {
-            cardType = 10;
-            gameObject.GetComponent<MeshRenderer>().material = stone;
-        }
-    }
 
     private void CardMove()
     {

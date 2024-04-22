@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Card
   - SubCamera
+  - Enemy
   layers:
   - Default
   - TransparentFX
