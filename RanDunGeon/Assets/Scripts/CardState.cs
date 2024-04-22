@@ -44,7 +44,7 @@ public class CardState : MonoBehaviour
 
         if (DoMove == false)
         {
-            if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 4))            //합쳐질 카드 인식
+            if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 3))            //합쳐질 카드 인식
             {
                 target2 = hit.collider.gameObject;
                 if (target2.transform.tag == "Card" && cardRank <= 2)
