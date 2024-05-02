@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalAttackCard : MonoBehaviour
+public class NormalStoneCard : MonoBehaviour
 {
     private GameObject player;
     private GameObject enemy;
-
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -32,11 +30,11 @@ public class NormalAttackCard : MonoBehaviour
             playerAd = player.GetComponent<CharacterStatus>().Ad;
             CardRank = GetComponent<CardState>().cardRank;
 
-            if (CardRank == 1) DamageRank = 1.2f;
-            if (CardRank == 2) DamageRank = 2.1f;
-            if (CardRank == 3) DamageRank = 3.5f;
+            if (CardRank == 1) DamageRank = 1.6f;
+            if (CardRank == 2) DamageRank = 1.8f;
+            if (CardRank == 3) DamageRank = 2.0f;
 
-            
+
             enemyDf = enemy.GetComponent<CharacterStatus>().Defense;
             enemyDd = enemy.GetComponent<CharacterStatus>().DownDamage;
 

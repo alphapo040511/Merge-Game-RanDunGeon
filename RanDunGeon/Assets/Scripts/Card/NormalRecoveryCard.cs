@@ -25,13 +25,16 @@ public class NormalRecoveryCard : MonoBehaviour
             playerMaxHp = player.GetComponent<CharacterStatus>().MaxHp;
             CardRank = GetComponent<CardState>().cardRank;
 
-            if (CardRank == 1) recoveryRank = 0.05f;
-            if (CardRank == 2) recoveryRank = 0.09f;
-            if (CardRank == 3) recoveryRank = 0.17f;
+            if (CardRank == 1) recoveryRank = 0.06f;
+            if (CardRank == 2) recoveryRank = 0.10f;
+            if (CardRank == 3) recoveryRank = 0.16f;
 
             finalHeal = playerMaxHp * recoveryRank + 5;
 
-            player.GetComponent<CharacterStatus>().Hp += finalHeal;
+            player.GetComponent<CharacterStatus>().Recover += finalHeal;
+
+            Debug.Log("체력을 " + finalHeal.ToString("F0") + "만큼 회복합니다.");
+
             GetComponent<CardState>().skill = false;
             Destroy(gameObject);
         }

@@ -8,7 +8,6 @@ using DG.Tweening;
 
 public class CardState : MonoBehaviour
 {
-
     public float moveSpeed;
     GameObject target1;
     GameObject target2;
@@ -22,9 +21,16 @@ public class CardState : MonoBehaviour
 
     public TextMeshPro rankText;
 
+    private string infoText;
+
     RaycastHit stopTarget;
     RaycastHit hit;
 
+
+    private void Awake()
+    {
+        infoText = gameObject.GetComponent<CardInfo>().InfoText;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +48,7 @@ public class CardState : MonoBehaviour
             if (Physics.Raycast(transform.position, new Vector3(-1, 0, 0), out hit, 3))            //합쳐질 카드 인식
             {
                 target2 = hit.collider.gameObject;
-                if (target2.transform.tag == "Card" && cardRank <= 2)
+                if (target2.transform.tag == "Card" && cardRank <= 2) //&& cardType != 4)
                 {
                     if (target2.GetComponent<CardState>().cardType == cardType && target2.GetComponent<CardState>().cardRank == cardRank)
                     {
@@ -72,7 +78,7 @@ public class CardState : MonoBehaviour
         transform.DOMoveX(stopPositionX, 0.3f).OnComplete(DoMoveTurn);
     }
 
-    void MergeCard()
+    private void MergeCard()
     {
         GetComponent<Collider>().isTrigger = true;
         transform.Translate(new Vector3 (0,0,0.1f));
@@ -92,15 +98,22 @@ public class CardState : MonoBehaviour
             rankText.text = cardRank.ToString();
     }
 
-   void DoMoveTurn()
+    private void DoMoveTurn()
     {
         DoMove = false;
     }
 
-    void DoMergeTurn()
+    private void DoMergeTurn()
     {
         target2.GetComponent<CardState>().RankUp();
         DoMerge = false;
         Destroy(gameObject);
     }
+
+    public void CardInfo()
+    {
+        Debug.Log("카드 스킬 : " + infoText);
+    }
+
+    
 }

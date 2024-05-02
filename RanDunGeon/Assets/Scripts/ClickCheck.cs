@@ -7,6 +7,10 @@ public class ClickCheck : MonoBehaviour
 {
     public Camera mainCamera;
     public GameObject TurnManager;
+    public GameObject CardManager;
+
+
+    public bool click = true;
 
     private RaycastHit hit;
     private float holdTime = 0;
@@ -30,8 +34,10 @@ public class ClickCheck : MonoBehaviour
             holdTime += Time.deltaTime;
         }
 
-        if(Input.GetMouseButtonUp(0)) 
-        { Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit);
+        if(Input.GetMouseButtonUp(0) && CardManager.GetComponent<CardManager>().stopDraw == true && click == true)
+        {
+            Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit);
+            click = false;
 
             if (hit.collider != null)
             {
@@ -44,11 +50,12 @@ public class ClickCheck : MonoBehaviour
                             TurnManager.GetComponent<TurnManager>().PWorkCount--;
                             hit.collider.gameObject.GetComponent<CardState>().skill = true;
                         }
+                        
                         holdTime = 0;
                     }
                 }
             }
-         
+            click = true;
 
         }
 
@@ -59,14 +66,14 @@ public class ClickCheck : MonoBehaviour
                 Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit);
                 if (hit.collider != null)
                 {
-                    Debug.Log(hit.collider.transform.name);
+                    hit.collider.GetComponent<CardState>().CardInfo();
                 }
                 Click = false;
             }
 
             if (Input.GetMouseButtonUp(0))
             { 
-            holdTime = 0;
+                holdTime = 0;
                 Click = true;
             }
         }

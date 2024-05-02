@@ -46,9 +46,9 @@ public class CardManager : MonoBehaviour
         cardType = Random.Range(1, 5);
  
         if(cardType == 1 ) { spawnCard = Card1; }
-        else if(cardType == 2 ) { spawnCard = Card2; }
+        else if(cardType == 2 ) { spawnCard = Card2;}
         else if(cardType == 3 ) { spawnCard = Card3;}
-        else if(cardType == 4 ) {  spawnCard = Card4;}
+        else if(cardType == 4 ) { spawnCard = Card4;}
  
         Instantiate(spawnCard, transform);
         

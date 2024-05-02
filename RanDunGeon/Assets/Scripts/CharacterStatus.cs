@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CharacterStatus : MonoBehaviour
 {
     public GameObject TrunManager;
     public Text HpText;
+    public Slider HpBar;
+    public GameObject RecoveryAmount;
+    public GameObject DamageAmount;
+
+    public float Recover;
+    public float FinalDamage;
 
     public float MaxHp;
     public float DefaultAd;
@@ -17,7 +24,7 @@ public class CharacterStatus : MonoBehaviour
     public float Hp;
     public float Ad;
     public float Defense;
-    public float DownDamage;        //까먹지 말것!!
+    public int DownDamage;        //?????? ????!!
     public float CriPercent;
     public float CriDamage;
 
@@ -49,7 +56,8 @@ public class CharacterStatus : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       Hp = MaxHp;
+        Hp = MaxHp;
+        HpBar.value = Hp / MaxHp;
     }
 
     // Update is called once per frame
@@ -59,7 +67,6 @@ public class CharacterStatus : MonoBehaviour
         {
             if (TrunManager.GetComponent<TurnManager>().pTurn == true && TurnDown == true)
             {
-                Debug.Log("플레이어 턴 줄이기");
                 if (AdBuffTurn > 0) AdBuffTurn--;
                 if (AdDeBuffTurn > 0) AdDeBuffTurn--;
                 if (DefenseBuffTurn > 0) DefenseBuffTurn--;
@@ -79,7 +86,6 @@ public class CharacterStatus : MonoBehaviour
         {
             if (TrunManager.GetComponent<TurnManager>().eTurn == true && TurnDown == true)
             {
-                Debug.Log("적 턴 줄이기");
                 if (AdBuffTurn > 0) AdBuffTurn--;
                 if (AdDeBuffTurn > 0) AdDeBuffTurn--;
                 if (DefenseBuffTurn > 0) DefenseBuffTurn--;
@@ -94,14 +100,32 @@ public class CharacterStatus : MonoBehaviour
 
             if (TrunManager.GetComponent<TurnManager>().pTurn == true) TurnDown = true;
         }
+
         if(Hp > MaxHp)
         {
             Hp = MaxHp;
         }
 
+        if(FinalDamage != 0)
+        {
+            DamageAmount.GetComponent<TextMeshPro>().text = FinalDamage.ToString("F0");
+            Instantiate(DamageAmount).transform.position = new Vector3(gameObject.transform.position.x, 6, gameObject.transform.position.z);
+            Hp -= FinalDamage;
+            FinalDamage = 0;
+        }
+
+        if(Recover != 0)
+        {
+            RecoveryAmount.GetComponent<TextMeshPro>().text = Recover.ToString("F0");
+            Instantiate(RecoveryAmount).transform.position = new Vector3(gameObject.transform.position.x, 6, gameObject.transform.position.z);
+            Hp += Recover;
+            Recover = 0;
+        }
+
         if (Hp > 0)
         {
             HpText.text = "Hp : " + Hp.ToString("F0");
+            HpBar.value = Hp / MaxHp;
         }
         else if (Hp < 0) 
         {

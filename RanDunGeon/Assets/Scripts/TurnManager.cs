@@ -22,7 +22,6 @@ public class TurnManager : MonoBehaviour
         if (PWorkCount == 0 && pTurn == true)
         {
             EWorkCount = 2;
-            Debug.Log("적턴");
             eTurn = true;
             pTurn = false;
         }
@@ -30,7 +29,6 @@ public class TurnManager : MonoBehaviour
         if(EWorkCount == 0 && eTurn == true)
         {
             PWorkCount = 2;
-            Debug.Log("아군턴");
             pTurn = true;
             eTurn = false;
         }

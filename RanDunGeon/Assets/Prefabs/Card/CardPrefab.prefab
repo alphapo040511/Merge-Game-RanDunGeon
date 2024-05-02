@@ -185,8 +185,9 @@ GameObject:
   - component: {fileID: 2554416861824635830}
   - component: {fileID: 8546909567175730845}
   - component: {fileID: 9027998817102125035}
+  - component: {fileID: -7612886901748817763}
   m_Layer: 3
-  m_Name: Card
+  m_Name: CardPrefab
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,15 +320,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd0e6ac1c88a4b73a39ff991b705237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: {fileID: 2100000, guid: 42b01962ab1dd420fac12f7f7181e3a8, type: 2}
-  defense: {fileID: 2100000, guid: 768b4aab8744b482689abcffbdc6057c, type: 2}
-  recovery: {fileID: 2100000, guid: f53f765abaef841049a4ca3f35b52498, type: 2}
-  stone: {fileID: 2100000, guid: 8553c57fc951f49cc8fbcd0e072d681a, type: 2}
   moveSpeed: 50
   DoMerge: 0
   cardType: 0
   cardRank: 1
+  skill: 0
   rankText: {fileID: 4834320325267724009}
+--- !u!114 &-7612886901748817763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9143045235273301103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c23e56975ed42058a5d40330ff453e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InfoText: "\uCE74\uB4DC \uC124\uBA85 \uCD94\uAC00\uB780"
 --- !u!1001 &561533312469200293
 PrefabInstance:
   m_ObjectHideFlags: 0
